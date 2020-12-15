@@ -1,14 +1,24 @@
 import React, { useState } from "react";
+import { useMutation } from "react-apollo";
+import { SIGN_UP_USER } from "../../mutations/signupUser";
 
 const Signup = () => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [signUpUser, { data }] = useMutation(SIGN_UP_USER, {
+    onError: e => console.log(e)
+  });
+  const onSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    signUpUser({ variables: { username, email, password } });
+  };
+  console.log(data);
   return (
     <div className="App">
       <h2 className="App">Signup</h2>
-      <form className="form">
+      <form className="form" onSubmit={onSubmit}>
         <input
           type="text"
           name="username"
