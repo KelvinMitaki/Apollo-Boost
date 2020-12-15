@@ -26,7 +26,12 @@ const Root = () => {
   const { data, loading } = useQuery<{ getCurrentUser: User | null }>(
     GET_CURRENT_USER,
     {
-      onError: err => console.log(err)
+      onError: err => console.log(err),
+      variables: {
+        headers: {
+          authorization: localStorage.getItem("token") || ""
+        }
+      }
     }
   );
   if (loading) {

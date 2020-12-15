@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useMutation } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { SIGN_IN_USER } from "../../mutations/signinUser";
+import { GET_CURRENT_USER } from "../../queries/getCurrentUser";
 
 const Signin: React.FC<RouteComponentProps> = props => {
   const [email, setEmail] = useState<string>("");
@@ -11,7 +12,6 @@ const Signin: React.FC<RouteComponentProps> = props => {
   const [signinUser, { data }] = useMutation(SIGN_IN_USER, {
     onError: e => setError(e),
     onCompleted: dat => {
-      console.log(dat);
       localStorage.setItem("token", dat.signinUser.token);
       props.history.push("/");
     }
@@ -19,7 +19,20 @@ const Signin: React.FC<RouteComponentProps> = props => {
   const onSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (email.trim().length !== 0 && password.trim().length > 5) {
-      signinUser({ variables: { email, password } });
+      signinUser({
+        variables: { email, password },
+        refetchQueries: [
+          {
+            query: GET_CURRENT_USER,
+            context: {
+              headers: {
+                authorization: localStorage.getItem("token") || ""
+              }
+            }
+          }
+        ],
+        awaitRefetchQueries: true
+      });
       setEmail("");
       setPassword("");
     }
