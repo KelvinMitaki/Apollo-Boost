@@ -1,11 +1,11 @@
 import { Context } from "./interfaces";
 import { RecipeAttrs } from "./models/Recipe";
 import { UserAttrs } from "./models/User";
+import bcrypt from "bcrypt";
 
 export const resolvers = {
   Query: {
     user(parent: any, args: any, ctx: any) {
-      console.log(ctx);
       return { username: "kevoh", email: "kevin@gmail.com" };
     }
   },
@@ -16,6 +16,7 @@ export const resolvers = {
       return recipe;
     },
     async addUser(prt: any, args: UserAttrs, { User }: Context) {
+      args.password = await bcrypt.hash(args.password, 10);
       const user = User.build(args);
       await user.save();
       return user;
