@@ -35,6 +35,21 @@ export const resolvers = {
       const user = User.build(args.data);
       await user.save();
       return jwt.sign(user, process.env.SECRET!, { expiresIn: "1hr" });
+    },
+    async loginUser(
+      prt: any,
+      args: { email: string; password: string },
+      { User }: Context
+    ) {
+      const user = await User.findOne({ email: args.email });
+      if (!user) {
+        throw new Error("Invalid email or password");
+      }
+      const isMatch = await bcrypt.compare(args.password, user.password);
+      if (!isMatch) {
+        throw new Error("Invalid email or password");
+      }
+      return jwt.sign(user, process.env.SECRET!, { expiresIn: "1hr" });
     }
   }
 };

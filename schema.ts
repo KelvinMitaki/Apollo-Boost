@@ -7,6 +7,7 @@ export const typeDefs = gql`
   type Mutation {
     addRecipe(data: RecipeInput!): Recipe!
     signupUser(data: UserInput!): Token!
+    loginUser(email: String!, password: String!): Token!
   }
   input RecipeInput {
     name: String!
