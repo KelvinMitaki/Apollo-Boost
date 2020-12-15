@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 import { ApolloServer } from "apollo-server-express";
 import { resolvers } from "./resolvers";
@@ -11,10 +11,11 @@ const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: {
+  context: ctx => ({
     User,
-    Recipe
-  }
+    Recipe,
+    ...ctx
+  })
 });
 
 server.applyMiddleware({ app });

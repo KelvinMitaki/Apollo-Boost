@@ -9,7 +9,12 @@ export const resolvers = {
     user(parent: any, args: any, ctx: any) {
       return { username: "kevoh", email: "kevin@gmail.com" };
     },
-    async getAllRecipes(prt: any, args: any, { Recipe }: Context) {
+    async getAllRecipes(prt: any, args: any, { Recipe, req }: Context) {
+      const decoded = jwt.verify(
+        req.headers.authorization!,
+        process.env.SECRET!
+      );
+      console.log(decoded);
       const recipes = await Recipe.find({});
       return recipes;
     }
@@ -42,7 +47,7 @@ export const resolvers = {
       });
       return { token };
     },
-    async loginUser(
+    async signinUser(
       prt: any,
       args: { email: string; password: string },
       { User }: Context
