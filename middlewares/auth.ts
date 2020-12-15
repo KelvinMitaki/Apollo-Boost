@@ -7,7 +7,12 @@ const auth = async (ctx: Context, useAuth: boolean = true) => {
       ctx.req.headers.authorization!,
       process.env.SECRET!
     ) as { _id: string };
-    const user = await ctx.User.findById(decoded._id);
+    let user;
+    if (useAuth) {
+      user = await ctx.User.findById(decoded._id);
+    } else {
+      user = await ctx.User.findById(decoded._id).populate("favorites");
+    }
     return user;
   } catch (error) {
     if (useAuth) {

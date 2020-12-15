@@ -7,7 +7,6 @@ export interface RecipeAttrs {
   instructions: string;
   likes: number;
   user: mongoose.Types.ObjectId;
-  favorites?: mongoose.Types.ObjectId[];
 }
 
 interface RecipeDoc extends mongoose.Document {
@@ -17,7 +16,6 @@ interface RecipeDoc extends mongoose.Document {
   instructions: string;
   likes: number;
   user: mongoose.Types.ObjectId;
-  favorites?: mongoose.Types.ObjectId[];
 }
 
 interface RecipeModel extends mongoose.Model<RecipeDoc> {
@@ -50,13 +48,7 @@ const RecipeSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       required: true,
       ref: "User"
-    },
-    favorites: [
-      {
-        type: mongoose.Types.ObjectId,
-        ref: "Recipe"
-      }
-    ]
+    }
   },
   { timestamps: true }
 );

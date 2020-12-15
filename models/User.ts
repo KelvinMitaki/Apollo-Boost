@@ -4,11 +4,13 @@ export interface UserAttrs {
   username: string;
   email: string;
   password: string;
+  favorites?: mongoose.Types.ObjectId[];
 }
 interface UserDoc extends mongoose.Document {
   username: string;
   email: string;
   password: string;
+  favorites?: mongoose.Types.ObjectId[];
 }
 
 interface UserModel extends mongoose.Model<UserDoc> {
@@ -30,7 +32,13 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true
-    }
+    },
+    favorites: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "Recipe"
+      }
+    ]
   },
   {
     toJSON: {
