@@ -3,19 +3,17 @@ import { RecipeAttrs } from "./models/Recipe";
 import { UserAttrs } from "./models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { auth } from "./middlewares/auth";
 
 export const resolvers = {
   Query: {
-    user(parent: any, args: any, ctx: any) {
-      return { username: "kevoh", email: "kevin@gmail.com" };
+    async getCurrentUser(parent: any, args: any, ctx: Context) {
+      const user = await auth(ctx);
+      return user;
     },
-    async getAllRecipes(prt: any, args: any, { Recipe, req }: Context) {
-      const decoded = jwt.verify(
-        req.headers.authorization!,
-        process.env.SECRET!
-      );
-      console.log(decoded);
-      const recipes = await Recipe.find({});
+    async getAllRecipes(prt: any, args: any, ctx: Context) {
+      await auth(ctx);
+      const recipes = await ctx.Recipe.find({});
       return recipes;
     }
   },
@@ -42,7 +40,7 @@ export const resolvers = {
       const userDoc = user.toObject();
       //@ts-ignore
       delete userDoc.password;
-      const token = jwt.sign(userDoc, process.env.SECRET!, {
+      const token = jwt.sign({ _id: userDoc._id }, process.env.SECRET!, {
         expiresIn: "1hr"
       });
       return { token };
@@ -63,7 +61,7 @@ export const resolvers = {
       const userDoc = user.toObject();
       //@ts-ignore
       delete userDoc.password;
-      const token = jwt.sign(userDoc, process.env.SECRET!, {
+      const token = jwt.sign({ _id: userDoc._id }, process.env.SECRET!, {
         expiresIn: "1hr"
       });
       return {

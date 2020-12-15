@@ -4,7 +4,13 @@ import "./App.css";
 import { FETCH_ALL_CATEGORIES } from "../queries/fetchAllCategories";
 
 function App() {
-  const { data, error, loading } = useQuery(FETCH_ALL_CATEGORIES);
+  const { data, error, loading } = useQuery(FETCH_ALL_CATEGORIES, {
+    context: {
+      headers: {
+        authorization: localStorage.getItem("token") || ""
+      }
+    }
+  });
   if (loading) {
     return <div>Loading...</div>;
   }
