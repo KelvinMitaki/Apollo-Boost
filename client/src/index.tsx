@@ -5,9 +5,9 @@ import App from "./components/App";
 import reportWebVitals from "./reportWebVitals";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Signin from "./components/Signin";
-import Signup from "./components/Signup";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import Signin from "./components/Auth/Signin";
+import Signup from "./components/Auth/Signup";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql"
@@ -16,9 +16,10 @@ const client = new ApolloClient({
 const Root = () => {
   return (
     <Switch>
-      <Route path="/" component={App} />
-      <Route path="/signup" component={Signin} />
-      <Route path="/signin" component={Signup} />
+      <Route path="/" exact component={App} />
+      <Route path="/signin" component={Signin} />
+      <Route path="/signup" component={Signup} />
+      <Redirect to="/" />
     </Switch>
   );
 };
