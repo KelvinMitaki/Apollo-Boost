@@ -8,7 +8,7 @@ import { auth } from "./middlewares/auth";
 export const resolvers = {
   Query: {
     async getCurrentUser(parent: any, args: any, ctx: Context) {
-      const user = await auth(ctx);
+      const user = await auth(ctx, false);
       return user;
     },
     async getAllRecipes(prt: any, args: any, ctx: Context) {
@@ -41,7 +41,7 @@ export const resolvers = {
       //@ts-ignore
       delete userDoc.password;
       const token = jwt.sign({ _id: userDoc._id }, process.env.SECRET!, {
-        expiresIn: "1hr"
+        expiresIn: "5d"
       });
       return { token };
     },
@@ -62,7 +62,7 @@ export const resolvers = {
       //@ts-ignore
       delete userDoc.password;
       const token = jwt.sign({ _id: userDoc._id }, process.env.SECRET!, {
-        expiresIn: "1hr"
+        expiresIn: "5d"
       });
       return {
         token

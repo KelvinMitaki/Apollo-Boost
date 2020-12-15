@@ -1,7 +1,7 @@
 import { Context } from "../interfaces";
 import jwt from "jsonwebtoken";
 
-const auth = async (ctx: Context) => {
+const auth = async (ctx: Context, useAuth: boolean = true) => {
   try {
     const decoded = jwt.verify(
       ctx.req.headers.authorization!,
@@ -10,7 +10,10 @@ const auth = async (ctx: Context) => {
     const user = await ctx.User.findById(decoded._id);
     return user;
   } catch (error) {
-    throw new Error("Not Authenticated");
+    if (useAuth) {
+      throw new Error("Not Authenticated");
+    }
+    return null;
   }
 };
 
