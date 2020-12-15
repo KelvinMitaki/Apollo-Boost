@@ -6,7 +6,8 @@ interface RecipeAttrs {
   description: string;
   instructions: string;
   likes: number;
-  username: mongoose.Types.ObjectId;
+  user: mongoose.Types.ObjectId;
+  favorites?: mongoose.Types.ObjectId[];
 }
 
 interface RecipeDoc extends mongoose.Document {
@@ -15,40 +16,50 @@ interface RecipeDoc extends mongoose.Document {
   description: string;
   instructions: string;
   likes: number;
-  username: mongoose.Types.ObjectId;
+  user: mongoose.Types.ObjectId;
+  favorites?: mongoose.Types.ObjectId[];
 }
 
 interface RecipeModel extends mongoose.Model<RecipeDoc> {
   build: (attrs: RecipeAttrs) => RecipeDoc;
 }
 
-const RecipeSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
+const RecipeSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true
+    },
+    category: {
+      type: String,
+      required: true
+    },
+    description: {
+      type: String,
+      required: true
+    },
+    instructions: {
+      type: String,
+      required: true
+    },
+    likes: {
+      type: Number,
+      default: 0
+    },
+    user: {
+      type: mongoose.Types.ObjectId,
+      required: true,
+      ref: "User"
+    },
+    favorites: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "Recipe"
+      }
+    ]
   },
-  category: {
-    type: String,
-    required: true
-  },
-  description: {
-    type: String,
-    required: true
-  },
-  instructions: {
-    type: String,
-    required: true
-  },
-  likes: {
-    type: Number,
-    default: 0
-  },
-  username: {
-    type: mongoose.Types.ObjectId,
-    required: true,
-    ref: "User"
-  }
-});
+  { timestamps: true }
+);
 
 RecipeSchema.statics.build = (attrs: RecipeAttrs): RecipeDoc => {
   return new Recipe(attrs);

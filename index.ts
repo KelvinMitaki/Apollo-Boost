@@ -1,7 +1,23 @@
 import express from "express";
 import mongoose from "mongoose";
+import { ApolloServer } from "apollo-server-express";
+import { resolvers } from "./resolvers";
+import { typeDefs } from "./schema";
+import { User } from "./models/User";
+import { Recipe } from "./models/Recipe";
 
 const app = express();
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: {
+    User,
+    Recipe
+  }
+});
+
+server.applyMiddleware({ app });
 
 const PORT = process.env.PORT || 4000;
 
@@ -25,4 +41,6 @@ const mongooseConnect = async () => {
 
 mongooseConnect();
 
-app.listen(PORT, () => console.log(`server started on port ${PORT}`));
+app.listen(PORT, () =>
+  console.log(`server started on port ${PORT}${server.graphqlPath}`)
+);
