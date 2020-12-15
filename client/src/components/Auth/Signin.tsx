@@ -12,6 +12,7 @@ const Signin: React.FC<RouteChildrenProps> = props => {
     onError: e => setError(e),
     onCompleted: dat => {
       console.log(dat);
+      localStorage.setItem("token", dat.signinUser.token);
       props.history.push("/");
     }
   });
@@ -25,7 +26,7 @@ const Signin: React.FC<RouteChildrenProps> = props => {
   };
   return (
     <div className="App">
-      <h2 className="App">Signup</h2>
+      <h2 className="App">Signin</h2>
       <form className="form" onSubmit={onSubmit}>
         <input
           type="email"
@@ -33,6 +34,7 @@ const Signin: React.FC<RouteChildrenProps> = props => {
           placeholder="Email"
           onChange={e => setEmail(e.target.value)}
           value={email}
+          onFocus={() => error && setError(null)}
         />
         <input
           type="password"
@@ -40,6 +42,7 @@ const Signin: React.FC<RouteChildrenProps> = props => {
           placeholder="Password"
           onChange={e => setPassword(e.target.value)}
           value={password}
+          onFocus={() => error && setError(null)}
         />
         <button type="submit" className="button-primary">
           Submit

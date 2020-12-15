@@ -14,6 +14,7 @@ const Signup: React.FC<RouteChildrenProps> = props => {
     onError: e => setError(e),
     onCompleted: dat => {
       console.log(dat);
+      localStorage.setItem("token", dat.signupUser.token);
       props.history.push("/");
     }
   });
@@ -42,6 +43,7 @@ const Signup: React.FC<RouteChildrenProps> = props => {
           placeholder="Username"
           onChange={e => setUsername(e.target.value)}
           value={username}
+          onFocus={() => error && setError(null)}
         />
         <input
           type="email"
@@ -49,6 +51,7 @@ const Signup: React.FC<RouteChildrenProps> = props => {
           placeholder="Email"
           onChange={e => setEmail(e.target.value)}
           value={email}
+          onFocus={() => error && setError(null)}
         />
         <input
           type="password"
@@ -56,6 +59,7 @@ const Signup: React.FC<RouteChildrenProps> = props => {
           placeholder="Password"
           onChange={e => setPassword(e.target.value)}
           value={password}
+          onFocus={() => error && setError(null)}
         />
         <input
           type="password"
@@ -63,6 +67,7 @@ const Signup: React.FC<RouteChildrenProps> = props => {
           placeholder="Confirm Password"
           onChange={e => setConfirmPassword(e.target.value)}
           value={confirmPassword}
+          onFocus={() => error && setError(null)}
         />
         <button type="submit" className="button-primary">
           Submit
