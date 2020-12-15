@@ -34,7 +34,10 @@ export const resolvers = {
       args.data.password = await bcrypt.hash(args.data.password, 10);
       const user = User.build(args.data);
       await user.save();
-      return jwt.sign(user, process.env.SECRET!, { expiresIn: "1hr" });
+      const token = jwt.sign(user.toObject(), process.env.SECRET!, {
+        expiresIn: "1hr"
+      });
+      return { token };
     },
     async loginUser(
       prt: any,
@@ -49,7 +52,12 @@ export const resolvers = {
       if (!isMatch) {
         throw new Error("Invalid email or password");
       }
-      return jwt.sign(user, process.env.SECRET!, { expiresIn: "1hr" });
+      const token = jwt.sign(user.toObject(), process.env.SECRET!, {
+        expiresIn: "1hr"
+      });
+      return {
+        token
+      };
     }
   }
 };
