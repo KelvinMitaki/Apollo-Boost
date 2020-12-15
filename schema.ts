@@ -6,7 +6,7 @@ export const typeDefs = gql`
   }
   type Mutation {
     addRecipe(data: RecipeInput!): Recipe!
-    addUser(data: UserInput!): User!
+    signupUser(data: UserInput!): Token!
   }
   input RecipeInput {
     name: String!
@@ -36,5 +36,8 @@ export const typeDefs = gql`
     likes: Int
     user: User!
     _id: ID!
+  }
+  type Token {
+    token: String!
   }
 `;

@@ -2,6 +2,7 @@ import { Context } from "./interfaces";
 import { RecipeAttrs } from "./models/Recipe";
 import { UserAttrs } from "./models/User";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const resolvers = {
   Query: {
@@ -23,15 +24,17 @@ export const resolvers = {
       await recipe.save();
       return recipe;
     },
-    async addUser(prt: any, args: { data: UserAttrs }, { User }: Context) {
-      const userExist = await User.findOne({ email: args.data.email });
+    async signupUser(prt: any, args: { data: UserAttrs }, { User }: Context) {
+      const userExist = await User.findOne({
+        $or: [{ email: args.data.email }, { username: args.data.username }]
+      });
       if (userExist) {
-        throw new Error("A user with that email already Exists");
+        throw new Error("User already Exists");
       }
       args.data.password = await bcrypt.hash(args.data.password, 10);
       const user = User.build(args.data);
       await user.save();
-      return user;
+      return jwt.sign(user, process.env.SECRET!, { expiresIn: "1hr" });
     }
   }
 };
