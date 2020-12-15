@@ -4,10 +4,13 @@ import "./index.css";
 import App from "./components/App";
 import reportWebVitals from "./reportWebVitals";
 import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "react-apollo";
+import { ApolloProvider, useQuery } from "react-apollo";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Signin from "./components/Auth/Signin";
 import Signup from "./components/Auth/Signup";
+import { GET_CURRENT_USER } from "./queries/getCurrentUser";
+import { User } from "./interfaces/User";
+import { UserContext } from "./context/UserContext";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
@@ -20,11 +23,22 @@ const client = new ApolloClient({
 });
 
 const Root = () => {
+  const { data, loading } = useQuery<{ getCurrentUser: User | null }>(
+    GET_CURRENT_USER,
+    {
+      onError: err => console.log(err)
+    }
+  );
+  if (loading) {
+    return null;
+  }
   return (
     <Switch>
-      <Route path="/" exact component={App} />
-      <Route path="/signin" component={Signin} />
-      <Route path="/signup" component={Signup} />
+      <UserContext.Provider value={data?.getCurrentUser!}>
+        <Route path="/" exact component={App} />
+        <Route path="/signin" component={Signin} />
+        <Route path="/signup" component={Signup} />
+      </UserContext.Provider>
       <Redirect to="/" />
     </Switch>
   );

@@ -1,10 +1,10 @@
 import { ApolloError } from "apollo-boost";
 import React, { useState } from "react";
 import { useMutation } from "react-apollo";
-import { RouteChildrenProps } from "react-router-dom";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 import { SIGN_UP_USER } from "../../mutations/signupUser";
 
-const Signup: React.FC<RouteChildrenProps> = props => {
+const Signup: React.FC<RouteComponentProps> = props => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -79,4 +79,4 @@ const Signup: React.FC<RouteChildrenProps> = props => {
   );
 };
 
-export default Signup;
+export default withRouter(Signup);

@@ -2,8 +2,9 @@ import React from "react";
 import { useQuery } from "react-apollo";
 import "./App.css";
 import { FETCH_ALL_CATEGORIES } from "../queries/fetchAllCategories";
+import withAuth from "./HOCs/withAuth";
 
-function App() {
+const App = () => {
   const { data, error, loading } = useQuery(FETCH_ALL_CATEGORIES, {
     context: {
       headers: {
@@ -23,6 +24,6 @@ function App() {
       <pre>{JSON.stringify(data, null, 4)}</pre>
     </div>
   );
-}
+};
 
-export default App;
+export default withAuth(App);
