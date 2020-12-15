@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-interface UserAttrs {
+export interface UserAttrs {
   username: string;
   email: string;
   password: string;

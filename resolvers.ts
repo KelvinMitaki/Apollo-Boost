@@ -1,5 +1,24 @@
+import { Context } from "./interfaces";
+import { RecipeAttrs } from "./models/Recipe";
+import { UserAttrs } from "./models/User";
+
 export const resolvers = {
   Query: {
-    user: () => ({ username: "kevoh", email: "kevin@gmail.com" })
+    user(parent: any, args: any, ctx: any) {
+      console.log(ctx);
+      return { username: "kevoh", email: "kevin@gmail.com" };
+    }
+  },
+  Mutation: {
+    async addRecipe(prt: any, args: RecipeAttrs, { Recipe }: Context) {
+      const recipe = Recipe.build(args);
+      await recipe.save();
+      return recipe;
+    },
+    async addUser(prt: any, args: UserAttrs, { User }: Context) {
+      const user = User.build(args);
+      await user.save();
+      return user;
+    }
   }
 };

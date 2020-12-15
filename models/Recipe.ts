@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-interface RecipeAttrs {
+export interface RecipeAttrs {
   name: string;
   category: string;
   description: string;
