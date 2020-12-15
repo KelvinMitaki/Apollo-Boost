@@ -20,18 +20,7 @@ const Signin: React.FC<RouteComponentProps> = props => {
     e.preventDefault();
     if (email.trim().length !== 0 && password.trim().length > 5) {
       signinUser({
-        variables: { email, password },
-        refetchQueries: [
-          {
-            query: GET_CURRENT_USER,
-            context: {
-              headers: {
-                authorization: localStorage.getItem("token") || ""
-              }
-            }
-          }
-        ],
-        awaitRefetchQueries: true
+        variables: { email, password }
       });
       setEmail("");
       setPassword("");

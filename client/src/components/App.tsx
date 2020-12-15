@@ -5,13 +5,7 @@ import { FETCH_ALL_CATEGORIES } from "../queries/fetchAllCategories";
 import withAuth from "./HOCs/withAuth";
 
 const App = () => {
-  const { data, error, loading } = useQuery(FETCH_ALL_CATEGORIES, {
-    context: {
-      headers: {
-        authorization: localStorage.getItem("token") || ""
-      }
-    }
-  });
+  const { data, error, loading } = useQuery(FETCH_ALL_CATEGORIES);
   if (loading) {
     return <div>Loading...</div>;
   }

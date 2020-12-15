@@ -27,18 +27,7 @@ const Signup: React.FC<RouteComponentProps> = props => {
       password === confirmPassword
     ) {
       signUpUser({
-        variables: { username, email, password },
-        refetchQueries: [
-          {
-            query: GET_CURRENT_USER,
-            context: {
-              headers: {
-                authorization: localStorage.getItem("token") || ""
-              }
-            }
-          }
-        ],
-        awaitRefetchQueries: true
+        variables: { username, email, password }
       });
       setEmail("");
       setUsername("");

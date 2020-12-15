@@ -3,47 +3,29 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./components/App";
 import reportWebVitals from "./reportWebVitals";
-import ApolloClient from "apollo-boost";
-import { ApolloProvider, useQuery } from "react-apollo";
+import { ApolloClient, InMemoryCache, HttpLink } from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Signin from "./components/Auth/Signin";
-import Signup from "./components/Auth/Signup";
-import { GET_CURRENT_USER } from "./queries/getCurrentUser";
-import { User } from "./interfaces/User";
-import { UserContext } from "./context/UserContext";
 
-const client = new ApolloClient({
+const httpLink = new HttpLink({
   uri: "http://localhost:4000/graphql",
-  fetchOptions: {
-    credentials: "include"
-  },
+  credentials: "include",
   headers: {
     authorization: localStorage.getItem("token") || ""
   }
 });
 
+const client = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache()
+});
+
 const Root = () => {
-  const { data, loading } = useQuery<{ getCurrentUser: User | null }>(
-    GET_CURRENT_USER,
-    {
-      onError: err => console.log(err),
-      variables: {
-        headers: {
-          authorization: localStorage.getItem("token") || ""
-        }
-      }
-    }
-  );
-  if (loading) {
-    return null;
-  }
   return (
     <Switch>
-      <UserContext.Provider value={data?.getCurrentUser!}>
-        <Route path="/" exact component={App} />
-        <Route path="/signin" component={Signin} />
-        <Route path="/signup" component={Signup} />
-      </UserContext.Provider>
+      <Route path="/" exact component={App} />
+      <Route path="/signin" component={Signin} />
       <Redirect to="/" />
     </Switch>
   );

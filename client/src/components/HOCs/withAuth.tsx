@@ -1,15 +1,34 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useQuery } from "react-apollo";
 import { Redirect } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
+import { User } from "../../interfaces/User";
+import { GET_CURRENT_USER } from "../../queries/getCurrentUser";
 
 const withAuth = (WrappedComponent: React.FC) => {
   const Component: React.FC = props => {
-    const user = useContext(UserContext);
-    console.log(user);
-    if (!user) {
+    const { data, loading } = useQuery<{ getCurrentUser: User | null }>(
+      GET_CURRENT_USER,
+      {
+        onError: err => console.log(err),
+        variables: {
+          headers: {
+            authorization: localStorage.getItem("token") || ""
+          }
+        }
+      }
+    );
+    if (loading) {
+      return null;
+    }
+    if (!data?.getCurrentUser) {
       return <Redirect to="/signin" />;
     }
-    return <WrappedComponent {...props} />;
+    return (
+      <UserContext.Provider value={data.getCurrentUser}>
+        <WrappedComponent {...props} />;
+      </UserContext.Provider>
+    );
   };
   return Component;
 };

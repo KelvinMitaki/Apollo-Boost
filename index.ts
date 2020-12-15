@@ -5,8 +5,11 @@ import { resolvers } from "./resolvers";
 import { typeDefs } from "./schema";
 import { User } from "./models/User";
 import { Recipe } from "./models/Recipe";
+import cors from "cors";
 
 const app = express();
+
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 const server = new ApolloServer({
   typeDefs,
