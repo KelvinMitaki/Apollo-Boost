@@ -2,6 +2,7 @@ import { gql } from "apollo-server-express";
 export const typeDefs = gql`
   type Query {
     user: User!
+    getAllRecipes: [Recipe!]!
   }
   type Mutation {
     addRecipe(data: RecipeInput!): Recipe!
@@ -25,6 +26,7 @@ export const typeDefs = gql`
     password: String!
     createdAt: String!
     favorites: [Recipe!]!
+    _id: ID!
   }
   type Recipe {
     name: String!
@@ -33,5 +35,6 @@ export const typeDefs = gql`
     instructions: String!
     likes: Int
     user: User!
+    _id: ID!
   }
 `;
