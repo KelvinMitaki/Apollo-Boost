@@ -1,24 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { useQuery } from "react-apollo";
+import "./App.css";
+import { FETCH_ALL_CATEGORIES } from "./queries/fetchAllCategories";
 
 function App() {
+  const { data, error, loading } = useQuery(FETCH_ALL_CATEGORIES);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
+    console.log(error);
+  }
+  console.log(data);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <pre>{JSON.stringify(data, null, 4)}</pre>
     </div>
   );
 }
