@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useLazyQuery, useQuery } from "@apollo/client";
+import React from "react";
+import { useQuery } from "@apollo/client";
 import { Redirect } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import { User } from "../../interfaces/User";
