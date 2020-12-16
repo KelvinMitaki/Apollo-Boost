@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useQuery } from "react-apollo";
+import { useQuery } from "@apollo/client";
 import "./App.css";
 import { FETCH_ALL_CATEGORIES } from "../queries/fetchAllCategories";
 import withAuth from "./HOCs/withAuth";

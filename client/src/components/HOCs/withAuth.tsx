@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useLazyQuery, useQuery } from "react-apollo";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import { Redirect } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import { User } from "../../interfaces/User";
@@ -11,19 +11,11 @@ const withAuth = (WrappedComponent: React.FC) => {
       getCurrentUser: User | null;
     }>(GET_CURRENT_USER, {
       onError: err => console.log(err),
-      variables: {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("token") || ""}`
-        }
-      },
-      fetchPolicy: "cache-and-network"
+      fetchPolicy: "network-only"
     });
-    useEffect(() => {}, []);
     if (loading) {
       return null;
     }
-    console.log(localStorage.getItem("token"));
-    console.log(data);
     if (!data?.getCurrentUser) {
       return <Redirect to="/signin" />;
     }

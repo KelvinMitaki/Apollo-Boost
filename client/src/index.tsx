@@ -3,18 +3,34 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./components/App";
 import reportWebVitals from "./reportWebVitals";
-import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "react-apollo";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  HttpLink,
+  ApolloLink,
+  concat
+} from "@apollo/client";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Signin from "./components/Auth/Signin";
+
+const httpLink = new HttpLink({
+  uri: "http://localhost:4000/graphql"
+});
+
+const authMiddleware = new ApolloLink((operation, forward) => {
+  operation.setContext(({ headers = {} }) => ({
+    headers: {
+      ...headers,
+      authorization: `Bearer ${localStorage.getItem("token") || ""}`
+    }
+  }));
+  return forward(operation);
+});
+
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
-  fetchOptions: {
-    credentials: "include"
-  },
-  headers: {
-    authorization: `Bearer ${localStorage.getItem("token") || ""}`
-  }
+  link: concat(authMiddleware, httpLink),
+  cache: new InMemoryCache()
 });
 
 const Root = () => {

@@ -1,6 +1,6 @@
-import { ApolloError } from "apollo-boost";
+import { ApolloError } from "@apollo/client";
 import React, { useState } from "react";
-import { useMutation } from "react-apollo";
+import { useMutation } from "@apollo/client";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { SIGN_IN_USER } from "../../mutations/signinUser";
 import { GET_CURRENT_USER } from "../../queries/getCurrentUser";
