@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useQuery } from "@apollo/client";
 import "./App.css";
 import { FETCH_ALL_CATEGORIES } from "../queries/fetchAllCategories";
-import withAuth from "./HOCs/withAuth";
+import withAuth from "../HOCs/withAuth";
+import { UserContext } from "../context/UserContext";
 
 const App = () => {
-  const { data, error, loading } = useQuery(FETCH_ALL_CATEGORIES, {});
+  const { data, error, loading } = useQuery(FETCH_ALL_CATEGORIES);
+  const user = useContext(UserContext);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -17,6 +19,7 @@ const App = () => {
   return (
     <div className="App">
       <pre>{JSON.stringify(data, null, 4)}</pre>
+      <pre>{JSON.stringify(user, null, 4)}</pre>
     </div>
   );
 };

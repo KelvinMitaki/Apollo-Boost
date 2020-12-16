@@ -1,8 +1,8 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import { Redirect, RouteComponentProps } from "react-router-dom";
-import { User } from "../../interfaces/User";
-import { GET_CURRENT_USER } from "../../queries/getCurrentUser";
+import { User } from "../interfaces/User";
+import { GET_CURRENT_USER } from "../queries/getCurrentUser";
 
 const withoutAuth = (WrappedComponent: React.FC<RouteComponentProps>) => {
   const Component: React.FC<RouteComponentProps> = props => {

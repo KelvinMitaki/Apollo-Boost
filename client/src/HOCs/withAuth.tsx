@@ -1,9 +1,9 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import { Redirect } from "react-router-dom";
-import { UserContext } from "../../context/UserContext";
-import { User } from "../../interfaces/User";
-import { GET_CURRENT_USER } from "../../queries/getCurrentUser";
+import { UserContext } from "../context/UserContext";
+import { User } from "../interfaces/User";
+import { GET_CURRENT_USER } from "../queries/getCurrentUser";
 
 const withAuth = (WrappedComponent: React.FC) => {
   const Component: React.FC = props => {

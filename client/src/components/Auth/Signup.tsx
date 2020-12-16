@@ -3,8 +3,7 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { SIGN_UP_USER } from "../../mutations/signupUser";
-import { GET_CURRENT_USER } from "../../queries/getCurrentUser";
-import withoutAuth from "../HOCs/withoutAuth";
+import withoutAuth from "../../HOCs/withoutAuth";
 
 const Signup: React.FC<RouteComponentProps> = props => {
   const [username, setUsername] = useState<string>("");
@@ -12,7 +11,7 @@ const Signup: React.FC<RouteComponentProps> = props => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [error, setError] = useState<ApolloError | null>(null);
-  const [signUpUser, { data }] = useMutation(SIGN_UP_USER, {
+  const [signUpUser] = useMutation(SIGN_UP_USER, {
     onError: e => setError(e),
     onCompleted: dat => {
       localStorage.setItem("token", dat.signupUser.token);

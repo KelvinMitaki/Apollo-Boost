@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { SIGN_IN_USER } from "../../mutations/signinUser";
-import withoutAuth from "../HOCs/withoutAuth";
+import withoutAuth from "../../HOCs/withoutAuth";
 
 const Signin: React.FC<RouteComponentProps> = props => {
   const [email, setEmail] = useState<string>("");

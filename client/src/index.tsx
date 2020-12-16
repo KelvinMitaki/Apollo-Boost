@@ -13,6 +13,8 @@ import {
 } from "@apollo/client";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Signin from "./components/Auth/Signin";
+import Signup from "./components/Auth/Signup";
+import Navbar from "./components/Navbar";
 
 const httpLink = new HttpLink({
   uri: "http://localhost:4000/graphql"
@@ -35,11 +37,15 @@ const client = new ApolloClient({
 
 const Root = () => {
   return (
-    <Switch>
-      <Route path="/" exact component={App} />
-      <Route path="/signin" component={Signin} />
-      <Redirect to="/" />
-    </Switch>
+    <React.Fragment>
+      <Navbar />
+      <Switch>
+        <Route path="/" exact component={App} />
+        <Route path="/signin" component={Signin} />
+        <Route path="/signup" component={Signup} />
+        <Redirect to="/" />
+      </Switch>
+    </React.Fragment>
   );
 };
 
