@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "react-apollo";
 import "./App.css";
 import { FETCH_ALL_CATEGORIES } from "../queries/fetchAllCategories";
 import withAuth from "./HOCs/withAuth";
 
 const App = () => {
-  const { data, error, loading } = useQuery(FETCH_ALL_CATEGORIES);
+  const { data, error, loading } = useQuery(FETCH_ALL_CATEGORIES, {
+    // context: {
+    //   headers: {
+    //     authorization: localStorage.getItem("token") || ""
+    //   }
+    // }
+  });
+
   if (loading) {
     return <div>Loading...</div>;
   }

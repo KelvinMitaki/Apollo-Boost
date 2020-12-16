@@ -4,6 +4,7 @@ import { useMutation } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { SIGN_UP_USER } from "../../mutations/signupUser";
 import { GET_CURRENT_USER } from "../../queries/getCurrentUser";
+import withoutAuth from "../HOCs/withoutAuth";
 
 const Signup: React.FC<RouteComponentProps> = props => {
   const [username, setUsername] = useState<string>("");
@@ -81,4 +82,4 @@ const Signup: React.FC<RouteComponentProps> = props => {
   );
 };
 
-export default withRouter(Signup);
+export default withRouter(withoutAuth(Signup));

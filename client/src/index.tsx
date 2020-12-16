@@ -3,22 +3,18 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./components/App";
 import reportWebVitals from "./reportWebVitals";
-import { ApolloClient, InMemoryCache, HttpLink } from "apollo-boost";
+import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Signin from "./components/Auth/Signin";
-
-const httpLink = new HttpLink({
-  uri: "http://localhost:4000/graphql",
-  credentials: "include",
-  headers: {
-    authorization: localStorage.getItem("token") || ""
-  }
-});
-
 const client = new ApolloClient({
-  link: httpLink,
-  cache: new InMemoryCache()
+  uri: "http://localhost:4000/graphql",
+  fetchOptions: {
+    credentials: "include"
+  },
+  headers: {
+    authorization: `Bearer ${localStorage.getItem("token") || ""}`
+  }
 });
 
 const Root = () => {

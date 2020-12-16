@@ -4,6 +4,7 @@ import { useMutation } from "react-apollo";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { SIGN_IN_USER } from "../../mutations/signinUser";
 import { GET_CURRENT_USER } from "../../queries/getCurrentUser";
+import withoutAuth from "../HOCs/withoutAuth";
 
 const Signin: React.FC<RouteComponentProps> = props => {
   const [email, setEmail] = useState<string>("");
@@ -56,4 +57,4 @@ const Signin: React.FC<RouteComponentProps> = props => {
   );
 };
 
-export default withRouter(Signin);
+export default withRouter(withoutAuth(Signin));

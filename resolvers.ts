@@ -8,6 +8,7 @@ import { auth } from "./middlewares/auth";
 export const resolvers = {
   Query: {
     async getCurrentUser(parent: any, args: any, ctx: Context) {
+      console.log(ctx.req.headers.authorization);
       const user = await auth(ctx, false);
       return user;
     },
